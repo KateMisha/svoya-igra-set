@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Своя игра · ООО «СЭТ»</title>
+<link rel="stylesheet" href="./style.css">
+<header>
+  <div class="brand"><h1>Своя игра</h1><span>ООО «СЭТ» · 27 ноября 2026</span></div>
+  <div id="teams" class="teams"></div>
+</header>
+<main>
+  <div class="toolbar">
+    <nav id="rounds" aria-label="Раунды"></nav>
+    <div><button id="fullscreen">Полный экран</button><button id="host" aria-pressed="false">Режим ведущего</button></div>
+  </div>
+  <section id="hostTools" hidden>
+    <button id="export">Экспорт игры</button><button id="import">Импорт игры</button><button id="reset">Новая игра</button>
+    <input id="file" type="file" accept=".json,application/json" hidden>
+  </section>
+  <p id="status" role="status"></p>
+  <h2 id="roundTitle"></h2>
+  <div id="board" class="board"></div>
+</main>
+<dialog id="card" aria-labelledby="question"></dialog>
+<script type="module" src="./app.js"></script>
+</html>
