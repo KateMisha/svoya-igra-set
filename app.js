@@ -1,4 +1,4 @@
-import questions from './questions.js';
+import questions from './questions.js?v=3';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
@@ -79,7 +79,7 @@ function render() {
 }
 const options = (chosen, excluded) => '<option value="">Выберите команду</option>' +
   state.teams.map((team,i) => i === excluded ? '' : `<option value="${i}" ${i===chosen?'selected':''}>${esc(team.name)}</option>`).join('');
-const field = (kind,i,value) => `<input inputmode="numeric" maxlength="${kind==='years'?4:16}" data-entry="${kind},${i}" aria-label="${kind==='years'?'Год':'Ставка'} команды ${i+1}" value="${esc(value??'')}">`;
+const field = (kind,i,value) => `<input inputmode="numeric" maxlength="${kind==='years'?4:16}" placeholder="${kind==='years'?'Год':'Введите ставку'}" data-entry="${kind},${i}" aria-label="${kind==='years'?'Год':'Ставка'} команды ${i+1}" value="${esc(value??'')}">`;
 const scoring = (allowed, points) => `<div class="controls">${state.teams.map((team,i) => {
   const recorded = state.results[active.id]?.[i];
   const disabled = !allowed.includes(i) || recorded !== undefined;
@@ -108,7 +108,7 @@ function specialControls(type, d) {
     if (d.tied) return '<p>Одинаковые максимальные ставки</p>' +
       d.tied.map(i => `<button data-winner="${i}">${esc(state.teams[i].name)}</button>`).join(' ') +
       ' <button id="rebid">Повторные торги</button>';
-    return '<div class="controls">'+state.teams.map((team,i)=>`<label class="control"><b>${esc(team.name)} · ${team.score}</b>${field('bids',i,d.bids?.[i])}</label>`).join('')+
+    return '<p>Введите ставку под названием команды. Пустое поле означает пропуск.</p><div class="controls">'+state.teams.map((team,i)=>`<label class="control"><b>${esc(team.name)} · ${team.score}</b>${field('bids',i,d.bids?.[i])}</label>`).join('')+
       '</div><button id="auction">Определить наибольшую ставку</button>';
   }
   return scoring([0,1,2,3],active.value);
@@ -125,8 +125,7 @@ function renderCard() {
     ${played?'<p>Вопрос сыгран.</p>':specialControls(type,state.details[q.id] ?? {})}
     <p id="cardStatus" role="status"></p>
     <div class="actions">${played ? '<button id="restore">Восстановить клетку</button>' :
-       '<button class="primary" id="finish">Завершить вопрос</button>'}
-       <button id="close">Закрыть карточку</button></div>`;
+       '<button class="primary" id="finish">Завершить вопрос</button>'}</div>`;
 }
 function open(q) {
   active=q;
@@ -199,7 +198,6 @@ document.addEventListener('click', async event => {
       setTimeout(()=>URL.revokeObjectURL(url),1000);return;
     }
     case 'import': $('file').click();return;
-    case 'close': close();return;
     case 'reveal': revealed=true;renderCard();$('finish')?.focus();return;
     case 'finish':
       state.played.push(active.id);save();close();return;
