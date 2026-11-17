@@ -18,7 +18,7 @@ button{cursor:pointer}button:hover:enabled,button[aria-pressed=true]{background:
 h2{margin:.8rem 0;color:var(--gold);font-family:Georgia,serif;font-size:clamp(1.6rem,3vw,3.5rem)}
 .board{display:grid;grid-template-columns:repeat(var(--columns),minmax(0,1fr));gap:clamp(.25rem,1vw,1rem)}
 .topic{display:grid;place-content:center;text-align:center;overflow-wrap:anywhere;font-size:clamp(.75rem,1.7vw,2rem);font-weight:650;min-height:4rem}
-.cell{min-height:clamp(3rem,11vh,9rem);background:linear-gradient(155deg,#661c3d,#46132b);font:700 clamp(1.25rem,4vw,5.5rem)/1 Georgia,serif;color:var(--gold);box-shadow:inset 0 1px #fce4af22}
+.cell{padding:.1em .25em;min-height:clamp(3rem,9vh,8rem);background:linear-gradient(155deg,#661c3d,#46132b);font:700 clamp(1.25rem,4vw,5.5rem)/1 Georgia,serif;color:var(--gold);box-shadow:inset 0 1px #fce4af22}
 .cell.played{background:#26101b;color:#c28e9f;box-shadow:none}
 dialog{position:fixed;inset:var(--header-height,14vh) 0 0;margin:0;width:100%;max-width:none;height:calc(100dvh - var(--header-height,14vh));max-height:none;padding:clamp(1rem,3vw,4rem);border:0;background:radial-gradient(ellipse at top,#65203e,#270b19 75%);color:inherit;overflow:auto}
 dialog[open]{animation:enter .22s ease-out}dialog::backdrop{background:#20051322}@keyframes enter{from{opacity:0;transform:translateY(.8rem)}to{opacity:1;transform:none}}
