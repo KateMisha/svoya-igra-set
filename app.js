@@ -1,4 +1,4 @@
-import questions from './questions.js?v=4';
+import questions from './questions.js?v=5';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
@@ -113,11 +113,35 @@ function specialControls(type, d) {
   }
   return scoring([0,1,2,3],active.value);
 }
+let timerRemaining=30000, timerDeadline=0, timerInterval;
+function timerValue() {
+  return timerDeadline ? Math.max(0,timerDeadline-performance.now()) : timerRemaining;
+}
+function stopTimer() {
+  timerRemaining=timerValue();
+  timerDeadline=0;
+  clearInterval(timerInterval);
+}
+function paintTimer() {
+  const output=$('countdown');
+  if(!output) return;
+  const seconds=Math.ceil(timerValue()/1000);
+  output.textContent=seconds ? '00:'+String(seconds).padStart(2,'0') : 'Время вышло';
+  output.classList.toggle('expired',seconds===0);
+  if(!seconds && timerDeadline) stopTimer();
+}
+function startTimer() {
+  if(timerDeadline || timerRemaining<=0) return;
+  timerDeadline=performance.now()+timerRemaining;
+  timerInterval=setInterval(paintTimer,100);
+}
+
 function renderCard() {
   const q = active, type = special[q.id], played = state.played.includes(q.id);
   const topic = names[q.round-1][q.column];
   $('card').innerHTML = `
     <div class="meta">Раунд ${q.round} · ${topic ?? 'Песни 90-х'} · ${q.value} баллов${type?' · '+type:''}</div>
+    <div class="timerbar"><output id="countdown" aria-label="Осталось времени"></output><button id="timerPause">Пауза / продолжить</button><button id="timerReset">Заново 30 секунд</button></div>
     <h2 id="question">${esc(q.question)}</h2>
     ${topic==='Факты или ложь'?'<p class="meta">Факт / Ложь</p>':''}
     ${revealed?`<div class="answer"><strong>${esc(q.answer)}</strong><p>${esc(q.note)}</p></div>`:
@@ -126,17 +150,19 @@ function renderCard() {
     <p id="cardStatus" role="status"></p>
     <div class="actions">${played ? '<button id="restore">Восстановить клетку</button>' :
        '<button class="primary" id="finish">Завершить вопрос</button>'}</div>`;
+  paintTimer();
 }
 function open(q) {
+  stopTimer();timerRemaining=30000;startTimer();
   active=q;
   revealed=false;
   renderCard();
   const headerHeight = document.querySelector('header').getBoundingClientRect().height;
   $('card').style.setProperty('--header-height', headerHeight + 'px');
-  $('card').showModal();
+  $('card').showModal(); paintTimer();
 }
-function close() { $('card').close(); active=undefined; render(); }
-function updateCard() { save(); renderTeams(); renderCard(); }
+function close() { stopTimer(); $('card').close(); active=undefined; render(); }
+function updateCard() { save(); renderTeams(); renderCard(); paintTimer(); }
 function chooseWinner(d,i) {
   d.target=i;
   d.bid=Number(d.bids[i]);
@@ -179,6 +205,11 @@ document.addEventListener('click', async event => {
     save();renderTeams();return;
   }
   switch (button.id) {
+    case 'timerPause':
+      if(timerDeadline) stopTimer(); else startTimer();
+      paintTimer();return;
+    case 'timerReset':
+      stopTimer();timerRemaining=30000;startTimer();paintTimer();return;
     case 'host': host=!host;render();return;
     case 'fullscreen':
       try {
@@ -198,7 +229,7 @@ document.addEventListener('click', async event => {
       setTimeout(()=>URL.revokeObjectURL(url),1000);return;
     }
     case 'import': $('file').click();return;
-    case 'reveal': revealed=true;renderCard();$('finish')?.focus();return;
+    case 'reveal': stopTimer();revealed=true;renderCard();$('finish')?.focus();return;
     case 'finish':
       state.played.push(active.id);save();close();return;
     case 'restore':
@@ -216,7 +247,7 @@ document.addEventListener('click', async event => {
     if (!winners.length) { $('cardStatus').textContent='Введите четыре корректных года.';return; }
     d.winners=winners;
     winners.forEach(i=>award(state,active.id,i,400));
-    revealed=true;updateCard();
+    stopTimer();revealed=true;updateCard();
   }
   if (button.id==='auction') {
     const winning=leaders(d.bids??['','','',''],state.teams.map(team=>team.score));

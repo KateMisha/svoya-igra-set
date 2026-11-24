@@ -28,3 +28,5 @@ dialog[open]{animation:enter .22s ease-out}dialog::backdrop{background:#20051322
 .controls{display:grid;gap:.65rem;grid-template-columns:repeat(4,minmax(0,1fr));margin:1rem 0}.control{background:#3d1027;padding:.65rem;border-radius:.6rem;overflow-wrap:anywhere}.control b{display:block;margin-bottom:.4rem}.control input,select{max-width:100%;color:inherit;background:#310d20;border:1px solid var(--border);border-radius:.4rem;padding:.45rem}
 .primary{background:var(--gold);color:#290c1b;font-weight:750}.primary:hover:enabled{color:#fff}.actions{justify-content:flex-start}
 @media(max-width:650px){header{flex-direction:column;align-items:stretch;gap:.8rem}.teams{gap:.25rem}.team{padding:.25rem}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.cell{padding:.3em}}
+
+.timerbar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.timerbar output{font-size:2.3rem;font-weight:750;color:var(--gold);font-variant-numeric:tabular-nums;min-width:6ch}.timerbar .expired{color:#ffabb5}
