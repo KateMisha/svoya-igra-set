@@ -1,9 +1,9 @@
-import questions from './questions.js?v=5';
+import questions from './questions.js?v=6';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
 const names = [
-  ['Окружающий мир 4 класс','Течение времени','Наш любимый СЭТ','Факты или ложь','Город на Неве'],
+  ['Окружающий мир 4 класс','Течение времени','Наш любимый СЭТ','Правда или ложь','Город на Неве'],
   ['Числа и множества','Наша планета Земля','Зумеры','Ох уж эти женщины','Сильный пол'],
   []
 ];
@@ -143,7 +143,7 @@ function renderCard() {
     <div class="meta">Раунд ${q.round} · ${topic ?? 'Песни 90-х'} · ${q.value} баллов${type?' · '+type:''}</div>
     <div class="timerbar"><output id="countdown" aria-label="Осталось времени"></output><button id="timerPause">Пауза / продолжить</button><button id="timerReset">Заново 30 секунд</button></div>
     <h2 id="question">${esc(q.question)}</h2>
-    ${topic==='Факты или ложь'?'<p class="meta">Факт / Ложь</p>':''}
+    ${topic==='Правда или ложь'?'<p class="meta">Правда / Ложь</p>':''}
     ${revealed?`<div class="answer"><strong>${esc(q.answer)}</strong><p>${esc(q.note)}</p></div>`:
      '<button id="reveal">Показать ответ</button>'}
     ${played?'<p>Вопрос сыгран.</p>':specialControls(type,state.details[q.id] ?? {})}
