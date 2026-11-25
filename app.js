@@ -1,4 +1,4 @@
-import questions from './questions.js?v=6';
+import questions from './questions.js?v=7';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
@@ -129,6 +129,11 @@ function paintTimer() {
   output.textContent=seconds ? '00:'+String(seconds).padStart(2,'0') : 'Время вышло';
   output.classList.toggle('expired',seconds===0);
   if(!seconds && timerDeadline) stopTimer();
+  const button=$('timerPause');
+  if(button) {
+    button.textContent=timerDeadline ? 'Пауза' : timerRemaining===30000 ? 'Запустить таймер' : 'Продолжить';
+    button.disabled=timerRemaining<=0;
+  }
 }
 function startTimer() {
   if(timerDeadline || timerRemaining<=0) return;
@@ -141,7 +146,7 @@ function renderCard() {
   const topic = names[q.round-1][q.column];
   $('card').innerHTML = `
     <div class="meta">Раунд ${q.round} · ${topic ?? 'Песни 90-х'} · ${q.value} баллов${type?' · '+type:''}</div>
-    <div class="timerbar"><output id="countdown" aria-label="Осталось времени"></output><button id="timerPause">Пауза / продолжить</button><button id="timerReset">Заново 30 секунд</button></div>
+    <div class="timerbar"><output id="countdown" aria-label="Осталось времени"></output><button id="timerPause">Запустить таймер</button><button id="timerReset">Заново 30 секунд</button></div>
     <h2 id="question">${esc(q.question)}</h2>
     ${topic==='Правда или ложь'?'<p class="meta">Правда / Ложь</p>':''}
     ${revealed?`<div class="answer"><strong>${esc(q.answer)}</strong><p>${esc(q.note)}</p></div>`:
@@ -153,7 +158,7 @@ function renderCard() {
   paintTimer();
 }
 function open(q) {
-  stopTimer();timerRemaining=30000;startTimer();
+  stopTimer();timerRemaining=30000;
   active=q;
   revealed=false;
   renderCard();
@@ -209,7 +214,7 @@ document.addEventListener('click', async event => {
       if(timerDeadline) stopTimer(); else startTimer();
       paintTimer();return;
     case 'timerReset':
-      stopTimer();timerRemaining=30000;startTimer();paintTimer();return;
+      stopTimer();timerRemaining=30000;paintTimer();return;
     case 'host': host=!host;render();return;
     case 'fullscreen':
       try {

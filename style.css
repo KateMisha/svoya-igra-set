@@ -29,4 +29,4 @@ dialog[open]{animation:enter .22s ease-out}dialog::backdrop{background:#20051322
 .primary{background:var(--gold);color:#290c1b;font-weight:750}.primary:hover:enabled{color:#fff}.actions{justify-content:flex-start}
 @media(max-width:650px){header{flex-direction:column;align-items:stretch;gap:.8rem}.teams{gap:.25rem}.team{padding:.25rem}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.cell{padding:.3em}}
 
-.timerbar{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;margin-top:1rem}.timerbar output{font-size:2.3rem;font-weight:750;color:var(--gold);font-variant-numeric:tabular-nums;min-width:6ch}.timerbar .expired{color:#ffabb5}
+dialog{padding-bottom:9rem}.timerbar{position:fixed;right:1.5rem;bottom:1rem;z-index:2;display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;max-width:calc(100vw - 3rem);padding:.6rem .8rem;border:1px solid var(--border);border-radius:.75rem;background:#310d20}.timerbar button{font-size:1rem}.timerbar output{font-size:2.3rem;font-weight:750;color:var(--gold);font-variant-numeric:tabular-nums;min-width:6ch}.timerbar .expired{color:#ffabb5}
