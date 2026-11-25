@@ -1,4 +1,4 @@
-import questions from './questions.js?v=9';
+import questions from './questions.js?v=10';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
@@ -150,6 +150,19 @@ function renderCard() {
   const q = active, type = questionType(q), played = state.played.includes(q.id);
   if(specialIntro) {
     $('card').innerHTML='<div class="special-intro"><h2 id="question">'+esc(type)+'</h2><button id="specialContinue" class="primary">Продолжить</button></div>';
+    return;
+  }
+  if(type==='Кот в мешке' && !played && !validTeam(state.details[q.id]?.target) &&
+      !Object.keys(state.results[q.id] ?? {}).length) {
+    const d=state.details[q.id] ?? {};
+    $('card').innerHTML='<h2 id="question">Кот в мешке</h2>'+
+      selector('Кто выбрал вопрос','source',d.source)+' '+
+      (validTeam(d.source) ? selector('Кому передали вопрос','target',d.target,d.source) : '')+
+      '<p id="cardStatus" role="status"></p>';
+    return;
+  }
+  if(type==='Аукцион' && !played && !state.details[q.id]?.bid) {
+    $('card').innerHTML='<h2 id="question">Аукцион</h2>'+specialControls(type,state.details[q.id] ?? {})+'<p id="cardStatus" role="status"></p>';
     return;
   }
   const topic = names[q.round-1][q.column];
