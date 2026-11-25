@@ -1,4 +1,4 @@
-import questions from './questions.js?v=8';
+import questions from './questions.js?v=9';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
