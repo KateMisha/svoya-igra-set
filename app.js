@@ -1,4 +1,4 @@
-import questions from './questions.js?v=7';
+import questions from './questions.js?v=8';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
@@ -7,7 +7,11 @@ const names = [
   ['Числа и множества','Наша планета Земля','Зумеры','Ох уж эти женщины','Сильный пол'],
   []
 ];
-const special = {'1-1-400':'Точный ответ','1-4-200':'Кот в мешке','2-0-400':'Аукцион'};
+const special = {'1-1-400':'Точный ответ','1-4-200':'Кот в мешке','2-0-400':'Аукцион','1-0-500':'Аукцион','2-4-300':'Кот в мешке','3-1-200':'Кот в мешке','3-2-500':'Аукцион'};
+const addedSpecials=['1-0-500','2-4-300','3-1-200','3-2-500'];
+function questionType(q) {
+  return addedSpecials.includes(q.id) && Object.keys(state.results[q.id] ?? {}).length && !state.details[q.id] ? undefined : special[q.id];
+}
 const bank = new Map(questions.map(q => [q.id,q]));
 const storageKey = 'svoya-igra-set-v1';
 const blank = old => ({
@@ -141,8 +145,13 @@ function startTimer() {
   timerInterval=setInterval(paintTimer,100);
 }
 
+let specialIntro=false;
 function renderCard() {
-  const q = active, type = special[q.id], played = state.played.includes(q.id);
+  const q = active, type = questionType(q), played = state.played.includes(q.id);
+  if(specialIntro) {
+    $('card').innerHTML='<div class="special-intro"><h2 id="question">'+esc(type)+'</h2><button id="specialContinue" class="primary">Продолжить</button></div>';
+    return;
+  }
   const topic = names[q.round-1][q.column];
   $('card').innerHTML = `
     <div class="meta">Раунд ${q.round} · ${topic ?? 'Песни 90-х'} · ${q.value} баллов${type?' · '+type:''}</div>
@@ -150,7 +159,7 @@ function renderCard() {
     <h2 id="question">${esc(q.question)}</h2>
     ${topic==='Правда или ложь'?'<p class="meta">Правда / Ложь</p>':''}
     ${revealed?`<div class="answer"><strong>${esc(q.answer)}</strong><p>${esc(q.note)}</p></div>`:
-     '<button id="reveal">Показать ответ</button>'}
+     '<button id="reveal" class="primary">Показать ответ</button>'}
     ${played?'<p>Вопрос сыгран.</p>':specialControls(type,state.details[q.id] ?? {})}
     <p id="cardStatus" role="status"></p>
     <div class="actions">${played ? '<button id="restore">Восстановить клетку</button>' :
@@ -160,6 +169,7 @@ function renderCard() {
 function open(q) {
   stopTimer();timerRemaining=30000;
   active=q;
+  specialIntro=['Кот в мешке','Аукцион'].includes(questionType(q)) && !state.played.includes(q.id);
   revealed=false;
   renderCard();
   const headerHeight = document.querySelector('header').getBoundingClientRect().height;
@@ -210,6 +220,7 @@ document.addEventListener('click', async event => {
     save();renderTeams();return;
   }
   switch (button.id) {
+    case 'specialContinue': specialIntro=false;renderCard();return;
     case 'timerPause':
       if(timerDeadline) stopTimer(); else startTimer();
       paintTimer();return;
