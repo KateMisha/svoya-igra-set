@@ -34,3 +34,5 @@ dialog{padding-bottom:9rem}.timerbar{position:fixed;right:1.5rem;bottom:1rem;z-i
 .special-intro{min-height:55vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:2rem}.special-intro #question{font-size:clamp(3rem,7vw,8rem);color:var(--gold);margin:0}.special-intro button,#reveal{font-size:clamp(1.3rem,2vw,2.2rem);padding:.7em 1.4em}
 
 .brand-logo{display:block;width:clamp(100px,10vw,170px);height:auto;margin-bottom:.4rem}.brand h1{font-size:clamp(1.7rem,2.8vw,3.5rem)}.team{border-radius:.25rem}.cell{border-radius:.15rem}.meta{color:#a6becf}
+
+.welcome{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(1.5rem,5vw,5rem);gap:3rem}.welcome img{width:min(65vw,850px);height:auto;margin:auto}.welcome button{font-size:clamp(1.3rem,2.3vw,2.5rem);padding:.7em 2em;margin-top:auto;margin-bottom:3vh}

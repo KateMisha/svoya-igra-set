@@ -2,8 +2,11 @@
 <html lang="ru">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Своя игра · ООО «СЭТ»</title>
-<link rel="stylesheet" href="./style.css?v=10">
+<title>ООО «СЭТ»</title>
+<link rel="stylesheet" href="./style.css?v=11">
+<body>
+<section id="welcome" class="welcome" aria-label="Приветствие"><img src="./assets/logo.png" alt="СЭТ"><button id="startGame" class="primary">Начать игру</button></section>
+<div id="gameScreen" hidden>
 <header>
   <div class="brand"><img class="brand-logo" src="./assets/logo.png" alt="СЭТ"><h1>Своя игра</h1><span>ООО «СЭТ» · 27 ноября 2026</span></div>
   <div id="teams" class="teams"></div>
@@ -22,5 +25,7 @@
   <div id="board" class="board"></div>
 </main>
 <dialog id="card" aria-labelledby="question"></dialog>
-<script type="module" src="./app.js?v=10"></script>
+</div>
+<script type="module" src="./app.js?v=11"></script>
+</body>
 </html>
