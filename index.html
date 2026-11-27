@@ -3,9 +3,37 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ООО «СЭТ»</title>
-<link rel="stylesheet" href="./style.css?v=11">
+<link rel="stylesheet" href="./style.css?v=12">
 <body>
 <section id="welcome" class="welcome" aria-label="Приветствие"><img src="./assets/logo.png" alt="СЭТ"><button id="startGame" class="primary">Начать игру</button></section>
+<section id="rulesScreen" class="rules-screen" hidden aria-labelledby="rulesTitle">
+<h1 id="rulesTitle" tabindex="-1">Правила игры</h1>
+<p class="rules-lead">Выбираем вопросы по часовой стрелке. Счёт общий для всех раундов.</p>
+<div class="rules-grid">
+<article class="rule-card"><div class="rule-icon question-icon" aria-hidden="true">?</div><h2>Обычный вопрос</h2><ul>
+<li>Выбравшая команда отвечает первой. На обсуждение — 30 секунд.</li>
+<li>Верно — плюс номинал. Ошибка — минус номинал. Отказ или время вышло — без штрафа.</li>
+<li>После «Вопрос открыт!» отвечает первая нажавшая кнопку команда. На ответ — 5 секунд.</li>
+<li>Ошибка — минус номинал и выход из розыгрыша. Повторно отвечать нельзя.</li>
+<li>Первый верный ответ завершает розыгрыш. Следующий выбор — по часовой стрелке.</li>
+</ul></article>
+<article class="rule-card"><div class="rule-icon cat-icon" aria-hidden="true">🐈</div><h2>Кот в мешке</h2><ul>
+<li>Передайте вопрос другой команде до его показа.</li>
+<li>Отвечает только команда-получатель.</li>
+<li>Верно — плюс номинал. Ошибка — минус номинал.</li>
+<li>Перехвата кнопкой нет.</li>
+</ul></article>
+<article class="rule-card"><div class="rule-icon" aria-hidden="true">⚒</div><h2>Аукцион</h2><ul>
+<li>Делаем ставки до показа вопроса. Можно пропустить торги.</li>
+<li>Положительная ставка — в пределах текущего счёта. Для пропуска оставьте поле пустым.</li>
+<li>Самая большая ставка даёт право ответа. При равенстве — повторные торги.</li>
+<li>Верно — плюс ставка. Ошибка — минус ставка.</li>
+<li>Перехвата кнопкой нет.</li>
+</ul></article></div>
+<p class="exact-rule"><strong>Точный ответ.</strong> Все команды называют год. Ближайшие к правильному получают по 400 баллов. Штрафов нет.</p>
+<p class="rules-win">Побеждает команда с наибольшим счётом после трёх раундов.</p>
+<button id="openBoard" class="primary">Перейти к игре</button>
+</section>
 <div id="gameScreen" hidden>
 <header>
   <div class="brand"><img class="brand-logo" src="./assets/logo.png" alt="СЭТ"><h1>Своя игра</h1><span>ООО «СЭТ» · 27 ноября 2026</span></div>
@@ -26,6 +54,6 @@
 </main>
 <dialog id="card" aria-labelledby="question"></dialog>
 </div>
-<script type="module" src="./app.js?v=11"></script>
+<script type="module" src="./app.js?v=12"></script>
 </body>
 </html>

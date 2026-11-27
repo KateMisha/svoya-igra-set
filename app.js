@@ -1,4 +1,4 @@
-import questions from './questions.js?v=11';
+import questions from './questions.js?v=12';
 import { closest, leaders, award, validSpecial } from './rules.js';
 
 const $ = id => document.getElementById(id);
@@ -235,6 +235,11 @@ document.addEventListener('click', async event => {
   switch (button.id) {
     case 'startGame':
       $('welcome').hidden=true;
+      $('rulesScreen').hidden=false;
+      $('rulesTitle').focus();
+      return;
+    case 'openBoard':
+      $('rulesScreen').hidden=true;
       $('gameScreen').hidden=false;
       document.title='Своя игра · ООО «СЭТ»';
       $('rounds').querySelector('button')?.focus();
